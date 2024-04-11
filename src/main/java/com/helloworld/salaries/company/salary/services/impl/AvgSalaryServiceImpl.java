@@ -1,6 +1,7 @@
-package com.helloworld.salaries.company.salary.services;
+package com.helloworld.salaries.company.salary.services.impl;
 
 import com.helloworld.salaries.company.salary.mappers.AvgSalaryMapper;
+import com.helloworld.salaries.company.salary.services.AvgSalaryService;
 import com.helloworld.salaries.exceptions.WrongParamsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
