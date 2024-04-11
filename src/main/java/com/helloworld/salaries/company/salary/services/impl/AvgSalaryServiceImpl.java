@@ -5,6 +5,8 @@ import com.helloworld.salaries.exceptions.WrongParamsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+
 @Service
 public class AvgSalaryServiceImpl implements AvgSalaryService {
 
@@ -16,11 +18,11 @@ public class AvgSalaryServiceImpl implements AvgSalaryService {
     }
 
     @Override
-    public double getAvgSalary(int year) throws WrongParamsException {
-        Double avgSalary = avgSalaryMapper.getAvgSalary(year);
-        if (avgSalary == null) {
-            throw new WrongParamsException("No data found for the given year.");
+    public Double getAvgSalary(int year) throws WrongParamsException {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        if (year < 2000 || year> currentYear) {
+            throw new WrongParamsException("year");
         }
-        return avgSalary;
+        return avgSalaryMapper.getAvgSalary(year);
     }
 }

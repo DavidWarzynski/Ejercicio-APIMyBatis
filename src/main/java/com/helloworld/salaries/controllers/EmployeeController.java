@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +54,7 @@ public class EmployeeController {
         try {
             List<Double> monthlySalaries = employeeService.getEmployeeSalaryByYear(employeeCode, year);
             if (monthlySalaries.isEmpty()) {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron datos para el año especificado");
             }
             return ResponseEntity.ok(monthlySalaries);
         } catch (WrongParamsException e) {
@@ -74,9 +75,10 @@ public class EmployeeController {
     })
     public ResponseEntity<?> createEmployeeSalary(
             @PathVariable @Parameter(description = "Código del empleado del que se desea la lista de salario") String employeeCode,
-            @PathVariable @Parameter(description = "Año para el cual se desea obtener la lista de salario") int year) {
+            @PathVariable @Parameter(description = "Año para el cual se desea obtener la lista de salario") int year,
+            @RequestBody @Parameter(description = "Salario que se desea asignar al empleado") double salary) {
         try {
-            employeeService.createEmployeeSalary(employeeCode, year);
+            employeeService.createEmployeeSalary(employeeCode, year, salary);
             return ResponseEntity.ok().build();
         } catch (WrongParamsException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

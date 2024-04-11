@@ -13,6 +13,11 @@ public interface EmployeeMapper {
     @Update("UPDATE salary SET SALARY = #{salary} WHERE CODEMPLEADO = #{employeeCode} AND SALARYYEAR = #{year} AND SALARYMONTH = #{month}")
     void updateMonthlySalary(@Param("employeeCode") String employeeCode, @Param("year") int year, @Param("month") int month, @Param("salary") double salary);
 
+    @Insert("INSERT INTO salary (CODEMPLEADO, SALARYYEAR, SALARYMONTH, SALARY) VALUES (#{employeeCode}, #{year}, #{month}, #{salary})")
+    void insertMonthlySalary(@Param("employeeCode") String employeeCode, @Param("year") int year, @Param("month") int month, @Param("salary") double salary);
+
+    @Select("SELECT COUNT(*) FROM salary WHERE CODEMPLEADO = #{employeeCode} AND SALARYYEAR = #{year} AND SALARYMONTH = #{month}")
+    boolean checkSalaryExists(@Param("employeeCode") String employeeCode, @Param("year") int year, @Param("month") int month);
     @Select("SELECT SALARY FROM salary WHERE CODEMPLEADO = #{employeeCode} AND SALARYYEAR = #{year}")
     List<Double> findByEmployeeCodeAndYear(@Param("employeeCode") String employeeCode, @Param("year") int year);
 }

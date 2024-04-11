@@ -53,7 +53,7 @@ public class CompanyController {
             if (avgSalary == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontraron datos para el año especificado");
             }
-            return ResponseEntity.ok(avgSalary);
+            return ResponseEntity.ok(Math.round(avgSalary * 100.0) / 100.0);
         } catch (WrongParamsException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

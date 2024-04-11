@@ -25,19 +25,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         return monthlySalaries;
     }
 
-    public void createEmployeeSalary(String employeeCode, int year) throws WrongParamsException {
+    public void createEmployeeSalary(String employeeCode, int year, Double salary) throws WrongParamsException {
         validateEmployeeCode(employeeCode);
         validateYear(year);
-        List<Double> salaries = new ArrayList<>();
-        for (int i = 0; i < 12; i++) {
-            salaries.add(0.0);
-        }
         for (int month = 1; month <= 12; month++) {
-            double salary = salaries.get(month - 1);
-            employeeMapper.updateMonthlySalary(employeeCode, year, month, salary);
+            boolean salaryExists = employeeMapper.checkSalaryExists(employeeCode, year, month);
+            if (salaryExists) {
+                employeeMapper.updateMonthlySalary(employeeCode, year, month, salary);
+            } else {
+                employeeMapper.insertMonthlySalary(employeeCode, year, month, salary);
+            }
         }
     }
-
     public List<Employee> searchEmployees(String name, String employeeCode, int page, int pageSize) throws WrongParamsException {
         validateName(name);
         validateEmployeeCode(employeeCode);
@@ -57,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private void validateEmployeeCode(String employeeCode) throws WrongParamsException {
-        if (employeeCode == null || employeeCode.isEmpty()) {
+        if (employeeCode == null || employeeCode.length() != 6 || employeeCode.isBlank()) {
             throw new WrongParamsException("employeeCode");
         }
     }

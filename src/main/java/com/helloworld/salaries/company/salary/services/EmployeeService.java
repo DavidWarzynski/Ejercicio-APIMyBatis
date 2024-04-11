@@ -9,7 +9,7 @@ public interface EmployeeService {
 
     List<Double> getEmployeeSalaryByYear(String employeeCode, int year)throws WrongParamsException;
 
-    void createEmployeeSalary(String employeeCode, int year)throws WrongParamsException;
+    void createEmployeeSalary(String employeeCode, int year, Double salary)throws WrongParamsException;
 
     List<Employee> searchEmployees(String name, String employeeCode, int page, int pageSize)throws WrongParamsException;
 
